@@ -21,6 +21,7 @@
         let lights = []
         let lightfunction = []
         let lamps =''
+        let startbutton = 'enabled'
 
         // stats
         let clickcount = 0
@@ -29,27 +30,30 @@
         let longesttime = 0
 
 
-        let startTime = 0
-        let finishTime = new Date().getTime();
+        var startTime = 0
+        var finishTime = 0
 
 
 // VIEW
     createcirkle()
     updateview()
-    randomLamp()
         function updateview(){
             app.innerHTML = /*HTML*/`
+
             <div class="container">
                 <h2>Test din reaksjonstid</h2>
-            <div class="lamps">${lamps}</div>
-            <div></div>
-            <div>${createtime()}: Sekunder</div>
-            <button onclick="randomLamp()">Start</button>
-            <div>Clicks: ${clickcount}</div>
-            <div>Fastest time: ${fastesttime}</div>
-            <div>Average time: ${averagetime}</div>
-            <div>Longest time: ${longesttime}</div>
-        
+                <div class="lamps">${lamps}</div>
+                <div>${createtime()}: Sekunder</div>
+
+                <p>Trykk på start knappen under for å starte testen, <br/>
+                    deretter trykk på de gule lysene så fort som mulig</p>
+                <button class="startbutton" ${startbutton} onclick="startgame()">Start</button>
+                <div class="stats">
+                    <div>Clicks: ${clickcount}</div>
+                    <div>Fastest time: ${fastesttime}</div>
+                    <div>Average time: ${averagetime}</div>
+                    <div>Longest time: ${longesttime}</div>
+                </div>
             </div>
             `;
 
@@ -66,9 +70,9 @@
                 }
         }
 
-        // antall elementer i array dobles?
+        
         function randomLamp(){
-            startTime = new Date().getTime();
+            var startTime = new Date().getTime();
             
             lights.splice([selectedLampIndex], 1, 'lamp')
             lightfunction.splice([selectedLampIndex], 1, 'off')
@@ -84,6 +88,7 @@
                 lamps += `<div class="${lights[i]}"
                 onclick="${lightfunction[i]}" ></div>`;
                 }
+                startbutton = 'disabled'
             updateview()
         }
 
@@ -93,11 +98,15 @@
 
         function createtime(){
            
-            let finishTime = new Date().getTime();
+            var finishTime = new Date().getTime();
             var spentMilliseconds = Math.floor(finishTime - startTime);
             var spentSeconds = spentMilliseconds / 1000;
 
             return spentSeconds
+        }
+
+        function startgame(){
+            randomLamp()
         }
         
     </script>
