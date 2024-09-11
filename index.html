@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanskelig oppgave</title>
+
+    <link rel="stylesheet" href="style.css" />
+    
+</head>
+    <div id="app"></div>
+
+
+
+    <script>
+// MODEL
+        const app = document.getElementById('app')
+        let i = 0
+        let Lampcount = 25
+        let selectedLampIndex = 26
+        let lights = []
+        let lightfunction = []
+        let lamps =''
+
+        // stats
+        let clickcount = 0
+        let fastesttime = 0
+        let averagetime = 0
+        let longesttime = 0
+
+
+        let startTime = 0
+        let finishTime = new Date().getTime();
+
+
+// VIEW
+    createcirkle()
+    updateview()
+    randomLamp()
+        function updateview(){
+            app.innerHTML = /*HTML*/`
+            <div class="container">
+                <h2>Test din reaksjonstid</h2>
+            <div class="lamps">${lamps}</div>
+            <div></div>
+            <div>${createtime()}: Sekunder</div>
+            <button onclick="randomLamp()">Start</button>
+            <div>Clicks: ${clickcount}</div>
+            <div>Fastest time: ${fastesttime}</div>
+            <div>Average time: ${averagetime}</div>
+            <div>Longest time: ${longesttime}</div>
+        
+            </div>
+            `;
+
+        }
+
+// CONTROLLER
+        function createcirkle(){
+            lamps = ''
+            for(i = 0; i < Lampcount; i++){
+                lights.push('lamp')
+                lightfunction.push('off')
+                lamps += `<div class="${lights[i]}"
+                onclick="${lightfunction[i]}" ></div>`;
+                }
+        }
+
+        // antall elementer i array dobles?
+        function randomLamp(){
+            startTime = new Date().getTime();
+            
+            lights.splice([selectedLampIndex], 1, 'lamp')
+            lightfunction.splice([selectedLampIndex], 1, 'off')
+            
+            selectedLampIndex = Math.floor(Math.random() * Lampcount);
+            
+            lights.splice([selectedLampIndex], 1, 'lighton')
+            lightfunction.splice([selectedLampIndex], 1, 'randomLamp()')
+           
+            lamps =''
+            for(i = 0; i < Lampcount; i++){
+                
+                lamps += `<div class="${lights[i]}"
+                onclick="${lightfunction[i]}" ></div>`;
+                }
+            updateview()
+        }
+
+        function off(){
+            console.log('wrong')
+        }
+
+        function createtime(){
+           
+            let finishTime = new Date().getTime();
+            var spentMilliseconds = Math.floor(finishTime - startTime);
+            var spentSeconds = spentMilliseconds / 1000;
+
+            return spentSeconds
+        }
+        
+    </script>
+
+<body>
+    
+</body>
+</html>

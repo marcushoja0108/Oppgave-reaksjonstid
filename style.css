@@ -1,0 +1,36 @@
+body{
+    background-color: aqua;
+}
+
+.container{
+margin: auto;
+text-align: center;
+align-content: center;
+width: fit-content;
+}
+
+.lamps{
+    display: grid;
+    height: 500px;
+    width: 500px;
+    grid-template-columns: auto auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto;
+    
+}
+.lamp{
+    border: solid black 1px;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    background-color: gray;
+    margin: 10px;
+}
+.lighton{
+    border: solid yellow 1px;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    background-color: rgb(255, 238, 0);
+    margin: 10px;
+    cursor: pointer;
+}
