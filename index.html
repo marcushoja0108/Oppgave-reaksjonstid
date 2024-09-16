@@ -111,12 +111,8 @@
         }
         
         function fastest(){
-            for(let i = 0; i < times.length; i++){
-                if (times[i] < fastesttime){
-                    fastesttime = times[i]
-                }
-            }
-            console.log(fastesttime)
+            times.sort((a, b) => a - b)
+            fastesttime = times[0]
         }
 
         function average(){
