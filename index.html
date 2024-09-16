@@ -55,7 +55,7 @@
                 <div class="stats">
                     <div>Clicks: ${clickcount ?? ''}</div>
                     <div>Fastest time: ${fastesttime ?? ''}</div>
-                    <div>Average time: ${averagetime}</div>
+                    <div>Average time: ${averagetime ?? ''}</div>
                     <div>Longest time: ${longesttime ?? ''}</div>
                 </div>
             </div>
@@ -98,8 +98,10 @@
                 lamps += `<div class="${lights[i]}"
                 onclick="${lightfunction[i]}" ></div>`;
             }
+            
+                clickcount ++
+    
             startbutton = 'disabled';
-            clickcount ++
             updateview()
         
         }
@@ -149,17 +151,11 @@
             return spentSeconds
         }
 
-        function endscreen(){
-            if(clickcount = 19){
-                app.innerHTML = /*HTML*/`
-                
-                `;
-            }
-
-        }
 
         function startgame(){
+            updateview()
             randomLamp()
+            
         }
         
     </script>
