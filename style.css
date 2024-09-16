@@ -52,4 +52,8 @@ width: fit-content;
     grid-template-columns: 2;
     font-size: larger;
     border: solid black;
+    background-color: beige;
+}
+.spentSeconds{
+    font-size:x-large;
 }

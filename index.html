@@ -22,16 +22,20 @@
         let lightfunction = []
         let lamps =''
         let startbutton = 'enabled'
+        let oldLampIndex = ''
 
         // stats
+        let times = []
+        
         let clickcount = 0
-        let fastesttime = 0
-        let averagetime = 0
-        let longesttime = 0
+        let fastesttime = null
+        let averagetime = ''
+        let longesttime = null
 
 
-        var startTime = 0
-        var finishTime = 0
+        var startTime = null
+        var finishTime = null
+        
 
 
 // VIEW
@@ -43,21 +47,22 @@
             <div class="container">
                 <h2>Test din reaksjonstid</h2>
                 <div class="lamps">${lamps}</div>
-                <div>${createtime()}: Sekunder</div>
+                <div class="spentSeconds">${createtime()}: Sekunder</div>
 
                 <p>Trykk på start knappen under for å starte testen, <br/>
                     deretter trykk på de gule lysene så fort som mulig</p>
                 <button class="startbutton" ${startbutton} onclick="startgame()">Start</button>
                 <div class="stats">
-                    <div>Clicks: ${clickcount}</div>
-                    <div>Fastest time: ${fastesttime}</div>
+                    <div>Clicks: ${clickcount ?? ''}</div>
+                    <div>Fastest time: ${fastesttime ?? ''}</div>
                     <div>Average time: ${averagetime}</div>
-                    <div>Longest time: ${longesttime}</div>
+                    <div>Longest time: ${longesttime ?? ''}</div>
                 </div>
             </div>
             `;
-
+            startTime = new Date().getTime();
         }
+
 
 // CONTROLLER
         function createcirkle(){
@@ -72,37 +77,85 @@
 
         
         function randomLamp(){
-            var startTime = new Date().getTime();
+            finishTime = new Date().getTime();
             
             lights.splice([selectedLampIndex], 1, 'lamp')
             lightfunction.splice([selectedLampIndex], 1, 'off')
             
             selectedLampIndex = Math.floor(Math.random() * Lampcount);
-            
+            if(selectedLampIndex == oldLampIndex){
+                randomLamp()
+            }
+            else{
             lights.splice([selectedLampIndex], 1, 'lighton')
             lightfunction.splice([selectedLampIndex], 1, 'randomLamp()')
-           
+            }
+            oldLampIndex = selectedLampIndex
+
             lamps =''
             for(i = 0; i < Lampcount; i++){
                 
                 lamps += `<div class="${lights[i]}"
                 onclick="${lightfunction[i]}" ></div>`;
-                }
-                startbutton = 'disabled'
+            }
+            startbutton = 'disabled';
+            clickcount ++
             updateview()
+        
         }
-
+        
         function off(){
             console.log('wrong')
         }
+        
+        function fastest(){
+            for(let i = 0; i < times.length; i++){
+                if (times[i] < fastesttime){
+                    fastesttime = times[i]
+                }
+            }
+            console.log(fastesttime)
+        }
+
+        function average(){
+            let sum = 0
+            if(times.length == 0) return
+                for (let i = 0; i < times.length; i++){
+                sum += times[i];
+             }
+            averagetime = sum / times.length
+            
+        }
+
+        function longest(){
+            for(let i = 0; i < times.length; i++){
+                if (longesttime <= times[i]){
+                    longesttime = times[i]
+                }
+            }
+        }
 
         function createtime(){
-           
-            var finishTime = new Date().getTime();
-            var spentMilliseconds = Math.floor(finishTime - startTime);
-            var spentSeconds = spentMilliseconds / 1000;
-
+            
+            spentMilliseconds = Math.floor(finishTime - startTime);
+            spentSeconds = spentMilliseconds / 1000;
+            
+            if(spentSeconds > 0){
+                times.push(spentSeconds)
+            }
+            fastest()
+            average()
+            longest()
             return spentSeconds
+        }
+
+        function endscreen(){
+            if(clickcount = 19){
+                app.innerHTML = /*HTML*/`
+                
+                `;
+            }
+
         }
 
         function startgame(){
